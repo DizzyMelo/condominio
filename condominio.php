@@ -2,7 +2,9 @@
 session_start();
 require_once 'models/uf.php';
 require_once 'models/competencia.php';
+require_once 'models/usuario_adicional.php';
 
+$usr_ad = new UsuarioAdicional();
 $uf = new UF();
 $competencia = new Competencia();
  ?>
@@ -15,7 +17,7 @@ $competencia = new Competencia();
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Condomínio </title>
+    <title>Condomínio | Dados do Condomínio</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -59,6 +61,41 @@ $competencia = new Competencia();
           uvp = true;
         }
 
+        var honorario_advogado = form.honorario_advogado.value;
+        var dias_para_inadinplencia = form.dias_para_inadinplencia.value;
+        var dias_para_processar = form.dias_para_processar.value;
+
+        var eou_inquilino = false;
+        var nome_inquilino = false;
+        var apenas_nome_inquilino = false;
+        var sacador_numero = false;
+
+        if (form.eou_inquilino.checked) {
+          eou_inquilino = true;
+        }
+
+        if (form.nome_inquilino.checked) {
+          nome_inquilino = true;
+        }
+
+        if (form.apenas_nome_inquilino.checked) {
+          apenas_nome_inquilino = true;
+        }
+
+        if (form.sacador_numero.checked) {
+          sacador_numero = true;
+        }
+
+        var primeira_linha = form.primeira_linha.value;
+        var segunda_linha = form.segunda_linha.value;
+        var terceira_linha = form.terceira_linha.value;
+        var quarta_linha = form.quarta_linha.value;
+
+        var primeira = form.primeira.value;
+        var segunda = form.segunda.value;
+        var terceira = form.terceira.value;
+        var quarta = form.quarta.value;
+
         $.post("actions/action_arrecadacao.php",
         {
           op:1,
@@ -69,7 +106,22 @@ $competencia = new Competencia();
           juro:juro,
           prd:prd,
           taxa:taxa,
-          uvp:uvp
+          uvp:uvp,
+          honorario_advogado:honorario_advogado,
+          dias_para_inadinplencia:dias_para_inadinplencia,
+          dias_para_processar:dias_para_processar,
+          eou_inquilino:eou_inquilino,
+          nome_inquilino:nome_inquilino,
+          apenas_nome_inquilino:apenas_nome_inquilino,
+          sacador_numero:sacador_numero,
+          primeira_linha:primeira_linha,
+          segunda_linha:segunda_linha,
+          terceira_linha:terceira_linha,
+          quarta_linha:quarta_linha,
+          primeira:primeira,
+          segunda:segunda,
+          terceira:terceira,
+          quarta:quarta
         },function(data){
           alert(data)
         });
@@ -125,6 +177,30 @@ $competencia = new Competencia();
             toastr.error('Erro ao cadastrar condomínio!','Notificação');
           }
         });
+
+        return false;
+      }
+
+      function adicionarUsuario(form){
+        var email = form.email_nu.value;
+        var nome = form.nome_nu.value;
+        var senha = form.password1.value;
+        var csenha = form.csenha_nu.value;
+
+        if(senha == csenha){
+          $.post("actions/action_usuario_adicional.php",
+          {
+            op:1,
+            email:email,
+            nome:nome,
+            senha,
+            condominio:4
+          },function(data){
+            alert(data);
+          });
+        }else{
+          alert("DESIGUAL");
+        }
 
         return false;
       }
@@ -199,7 +275,7 @@ $competencia = new Competencia();
                     <ul class="nav nav-second-level">
                         <li class=""><a href="condominio.php">Dados do Condomínio</a></li>
                         <li><a href="unidade.php">Unidade</a></li>
-                        <li><a href="dashboard_3.html">Responsáveis legais</a></li>
+                        <li><a href="responsavel_legal.php">Responsáveis legais</a></li>
                         <li><a href="dashboard_4_1.html">Contas bancárias</a></li>
                         <li><a href="dashboard_5.html">Formas de Recebimento</a></li>
                         <li><a href="dashboard_5.html">Plano de Contas</a></li>
@@ -359,7 +435,7 @@ $competencia = new Competencia();
                             <a>Unidade</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a>Resposáveis Legais</a>
+                            <a href="responsavel_legal.php">Resposáveis Legais</a>
                         </li>
                         <li class="breadcrumb-item">
                             <a>Contas bancárias</a>
@@ -377,9 +453,9 @@ $competencia = new Competencia();
                         <li class="breadcrumb-item">
                             <a>Ocorrências</a>
                         </li>
-                        <li class="breadcrumb-item">
+                        <!--<li class="breadcrumb-item">
                             <a>Manutenções Progamadas</a>
-                        </li>
+                        </li>-->
                     </ol>
                 </div>
                 <div class="col-lg-2">
@@ -585,13 +661,13 @@ $competencia = new Competencia();
                                                       <hr>
 
                                                         <div class="form-group  row"><label class="col-form-label">Honorários do advogado (%)</label>
-                                                            <div class="col-sm-11"><input type="text" class="form-control"></div>
+                                                            <div class="col-sm-11"><input type="text" name="honorario_advogado" id="honorario_advogado" class="form-control"></div>
                                                         </div>
                                                         <div class="form-group  row"><label class="col-form-label">Dias para inadimplência</label>
-                                                            <div class="col-sm-11"><input type="text" class="form-control"></div>
+                                                            <div class="col-sm-11"><input type="text" name="dias_para_inadinplencia" id="dias_para_inadinplencia" class="form-control"></div>
                                                         </div>
                                                         <div class="form-group  row"><label class="col-form-label">Processar atualização monetária, após(dias)</label>
-                                                            <div class="col-sm-11"><input type="text" class="form-control"></div>
+                                                            <div class="col-sm-11"><input type="text" name="dias_para_processar" id="dias_para_processar" class="form-control"></div>
                                                         </div>
 
                                                         <br>
@@ -599,16 +675,16 @@ $competencia = new Competencia();
                                                         <hr>
 
                                                         <div class="col-sm-10">
-                                                            <div class="i-checks"><label> <input type="checkbox" value="" > <i></i>Incluir "E/OU Inquilino" no pagador dos boletos</label></div>
+                                                            <div class="i-checks"><label> <input type="checkbox" name="eou_inquilino" id="eou_inquilino" value="" > <i></i>Incluir "E/OU Inquilino" no pagador dos boletos</label></div>
                                                         </div>
                                                         <div class="col-sm-10">
-                                                            <div class="i-checks"><label> <input type="checkbox" value="" > <i></i>Nome do inquilino no pagador dos boletos</label></div>
+                                                            <div class="i-checks"><label> <input type="checkbox" name="nome_inquilino" id="nome_inquilino" value="" > <i></i>Nome do inquilino no pagador dos boletos</label></div>
                                                         </div>
                                                         <div class="col-sm-10">
-                                                            <div class="i-checks"><label> <input type="checkbox" value="" > <i></i>Apenas o nome do inquilino no pagador dos boletos (não recomendado)</label></div>
+                                                            <div class="i-checks"><label> <input type="checkbox" name="apenas_nome_inquilino" id="apenas_nome_inquilino" value="" > <i></i>Apenas o nome do inquilino no pagador dos boletos (não recomendado)</label></div>
                                                         </div>
                                                         <div class="col-sm-10">
-                                                            <div class="i-checks"><label> <input type="checkbox" value="" > <i></i>Sacador do boleto é o número da unidade</label></div>
+                                                            <div class="i-checks"><label> <input type="checkbox" name="sacador_numero" id="sacador_numero" value="" > <i></i>Sacador do boleto é o número da unidade</label></div>
                                                         </div>
 
                                                         <br>
@@ -616,16 +692,16 @@ $competencia = new Competencia();
                                                         <hr>
 
                                                           <div class="form-group  row"><label class="col-form-label">Primeira Linha</label>
-                                                              <div class="col-sm-11"><input type="text" class="form-control"></div>
+                                                              <div class="col-sm-11"><input type="text" name="primeira_linha" id="primeira_linha" class="form-control"></div>
                                                           </div>
                                                           <div class="form-group  row"><label class="col-form-label">Segunda Linha</label>
-                                                              <div class="col-sm-11"><input type="text" class="form-control"></div>
+                                                              <div class="col-sm-11"><input type="text" name="segunda_linha" id="segunda_linha" class="form-control"></div>
                                                           </div>
                                                           <div class="form-group  row"><label class="col-form-label">Terceira Linha</label>
-                                                              <div class="col-sm-11"><input type="text" class="form-control"></div>
+                                                              <div class="col-sm-11"><input type="text" name="terceira_linha" id="terceira_linha" class="form-control"></div>
                                                           </div>
                                                           <div class="form-group  row"><label class="col-form-label">Quarta Linha</label>
-                                                              <div class="col-sm-11"><input type="text" class="form-control"></div>
+                                                              <div class="col-sm-11"><input type="text" name="quarta_linha" id="quarta_linha" class="form-control"></div>
                                                           </div>
 
                                                           <br>
@@ -633,16 +709,16 @@ $competencia = new Competencia();
                                                           <hr>
 
                                                             <div class="form-group  row"><label class="col-form-label">Primeira Linha</label>
-                                                                <div class="col-sm-11"><input type="text" class="form-control"></div>
+                                                                <div class="col-sm-11"><input type="text" name="primeira" id="primeira" class="form-control"></div>
                                                             </div>
                                                             <div class="form-group  row"><label class="col-form-label">Segunda Linha</label>
-                                                                <div class="col-sm-11"><input type="text" class="form-control"></div>
+                                                                <div class="col-sm-11"><input type="text" name="segunda" id="segunda" class="form-control"></div>
                                                             </div>
                                                             <div class="form-group  row"><label class="col-form-label">Terceira Linha</label>
-                                                                <div class="col-sm-11"><input type="text" class="form-control"></div>
+                                                                <div class="col-sm-11"><input type="text" name="terceira" id="terceira" class="form-control"></div>
                                                             </div>
                                                             <div class="form-group  row"><label class="col-form-label">Quarta Linha</label>
-                                                                <div class="col-sm-11"><input type="text" class="form-control"></div>
+                                                                <div class="col-sm-11"><input type="text" name="quarta" id="quarta" class="form-control"></div>
                                                             </div>
 
                                                             <h3>Descontos para pagamentos antecipados</h3>
@@ -682,31 +758,38 @@ $competencia = new Competencia();
                                   <div class="panel-body">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                        <div class="ibox ">
-
+                                          <div class="ibox ">
                                             <div class="ibox-content">
-
                                                 <div class="table-responsive">
                                                   <table class="table table-striped table-bordered table-hover dataTables-example" >
                                                   <thead>
                                                   <tr>
                                                       <th>Usuario</th>
-                                                      <th>Status</th>
+                                                      <th>Email</th>
                                                       <th>#</th>
-
                                                   </tr>
                                                   </thead>
                                                   <tbody>
-                                                    <tr>
-                                                      <td>daniel.melo42@gmail.com</td>
-                                                      <td>Liberado em todos os condominios</td>
-                                                      <td>Editar</td>
-                                                    </tr>
+                                                    <?php foreach ($usr_ad->listar() as $key => $value) {
+                                                      ?>
+                                                        <tr>
+                                                          <td><?php echo $value->nome ?></td>
+                                                          <td><?php echo $value->email ?></td>
+                                                          <td>Editar</td>
+                                                        </tr>
+                                                      <?php
+                                                    } ?>
                                                   </table>
                                                 </div>
-
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="col-md-9">
+
+                                    </div>
+
+                                    <div class="col-md-3">
+                                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_adicionar_usuario" name="button">Adicionar Usuário</button>
                                     </div>
                                     </div>
                                   </div>
@@ -741,6 +824,14 @@ $competencia = new Competencia();
 
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div class="col-md-9">
+
+                                    </div>
+
+                                    <div class="col-md-3">
+                                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_adicionar_patrimonio" name="button">Adicionar Patrimônio</button>
                                     </div>
                                     </div>
                                   </div>
@@ -807,6 +898,85 @@ $competencia = new Competencia();
 
         </div>
         </div>
+        <!--Adicionar Usuario-->
+        <div class="modal inmodal" id="modal_adicionar_usuario" tabindex="-1" role="dialog" aria-hidden="true">
+          <form class="" action="" method="post" onsubmit="return adicionarUsuario(this)">
+            <div class="modal-dialog">
+            <div class="modal-content animated bounceInRight" id="pwd-container1">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <i class="fa fa-user modal-icon"></i>
+                        <h4 class="modal-title">Novo Usuário</h4>
+                        <small class="font-bold">Adicione um usuário para ter acesso ao sistema.</small>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group"><label>Email</label> <input type="email" name="email_nu" id="email_nu" placeholder="Adicione o email" class="form-control" required></div>
+                        <div class="form-group"><label>Nome</label> <input type="text" name="nome_nu" id="nome_nu" placeholder="Nome" class="form-control " required></div>
+                        <div class="form-group"><label for="password1">Senha</label> <input type="password" name="senha_nu" id="password1" placeholder="Senha" class="form-control example1" required></div>
+                        <div class="form-group">
+                            <div class="pwstrength_viewport_progress"></div>
+                        </div>
+                        <div class="form-group"><label>Confirmar senha</label> <input type="password" name="csenha_nu" id="csenha_nu" placeholder="Confirmar senha" required class="form-control"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">Fechar</button>
+                        <button type="submit" id="enviar_usuario" class="btn btn-primary">Salvar</button>
+                    </div>
+                </div>
+            </div>
+          </form>
+        </div>
+
+        <!--Adicionar Patrimonio-->
+        <div class="modal inmodal" id="modal_adicionar_patrimonio" tabindex="-1" role="dialog" aria-hidden="true">
+          <form class="" action="" method="post" onsubmit="return adicionarPatrimonio(this)">
+            <div class="modal-dialog">
+            <div class="modal-content animated bounceInRight">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <i class="fa fa-building modal-icon"></i>
+                        <h4 class="modal-title">Novo Patrimônio</h4>
+                        <small class="font-bold">Adicione um patrimônio.</small>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="form-group"><label>Quantidade</label> <input type="text" name="pat_qtd" id="pat_qtd" placeholder="Quantidade de itens" class="form-control"></div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group"><label>Código</label> <input type="text" name="pat_codigo" id="pat_codigo" placeholder="Código" class="form-control"></div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <div class="form-group"><label>Nome de Referência</label> <input type="text" name="nome_referencia" id="nome_referencia" placeholder="Nome de Referência" class="form-control"></div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group"><label>Data de Aquisição</label> <input type="date" name="data_aquisicao" id="data_aquisicao" class="form-control"></div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group"><label>Valor pago por Unidade</label> <input type="text" name="valor_pago" id="valor_pago" class="form-control"></div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group"><label>Taxa de depreciação</label> <input type="text" name="taxa_depreciacao" id="taxa_depreciacao" class="form-control"></div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group"><label>Valor atual</label> <input type="text" name="valor_atual" id="valor_atual" disable class="form-control"></div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </div>
+            </div>
+          </form>
+        </div>
 
 
     <!-- Mainly scripts -->
@@ -827,6 +997,10 @@ $competencia = new Competencia();
     <script src="js/plugins/toastr/toastr.min.js"></script>
 
     <script src="js/plugins/iCheck/icheck.min.js"></script>
+
+    <!-- Password meter -->
+    <script src="js/plugins/pwstrength/pwstrength-bootstrap.min.js"></script>
+    <script src="js/plugins/pwstrength/zxcvbn.js"></script>
         <script>
             $(document).ready(function () {
                 $('.i-checks').iCheck({
@@ -841,7 +1015,40 @@ $competencia = new Competencia();
       var dropzone = new Dropzone("#arquivos",{url:"subir.php", id:id});
    </script>
 
+<script>
+  /*
+  $(document).ready(function(){
+    $('#modal_adicionar_usuario').children('.modal-content').toggleClass('sk-loading');
+  })
+  $(function(){
+    $('#enviar_usuario').on('click', function(){
+        $('#modal_adicionar_usuario').children('.modal-content').toggleClass('sk-loading');
+    })
+  })
+  */
+</script>
 
+
+    <script>
+
+        $(document).ready(function(){
+
+
+            // Example 1
+            var options1 = {};
+            options1.ui = {
+                container: "#pwd-container1",
+                showVerdictsInsideProgressBar: true,
+                viewports: {
+                    progress: ".pwstrength_viewport_progress"
+                }
+            };
+            options1.common = {
+                debug: false,
+            };
+            $('.example1').pwstrength(options1);
+          })
+    </script>
 
 
 </body>

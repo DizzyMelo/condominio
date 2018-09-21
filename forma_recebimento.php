@@ -1,10 +1,3 @@
-<?php
-require_once 'models/unidade.php';
-require_once 'models/proprietario.php';
-
-$unidade = new Unidade();
-$proprietario = new Proprietario();
- ?>
 <!DOCTYPE html>
 <html>
 
@@ -13,7 +6,7 @@ $proprietario = new Proprietario();
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Condomínio | Unidade</title>
+    <title>Condomínio | Formas de Recebimento</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -65,6 +58,30 @@ $proprietario = new Proprietario();
         });
         return false;
       }
+
+      function buscarEndereco(str){
+        var cep = str.value;
+        $.get("https://viacep.com.br/ws/"+cep+"/json/",
+
+
+        function(data){
+          //alert(data.logradouro);
+          $("#rua").val(data.logradouro);
+          $("#bairro").val(data.bairro);
+          $("#cidade").val(data.localidade);
+          var textToFind = data.uf;
+
+          var dd = document.getElementById('uf');
+          for (var i = 0; i < dd.options.length; i++) {
+              if (dd.options[i].text === textToFind) {
+                  dd.selectedIndex = i;
+                  break;
+              }
+          }
+        });
+        return false;
+      }
+
     </script>
 </head>
 
@@ -104,8 +121,8 @@ $proprietario = new Proprietario();
                         <li class=""><a href="condominio.php">Dados do Condomínio</a></li>
                         <li><a href="unidade.php">Unidade</a></li>
                         <li><a href="responsavel_legal.php">Responsáveis legais</a></li>
-                        <li><a href="dashboard_4_1.html">Contas bancárias</a></li>
-                        <li><a href="dashboard_5.html">Formas de Recebimento</a></li>
+                        <li><a href="conta_bancaria.php">Contas bancárias</a></li>
+                        <li><a href="forma_recebimento.php">Formas de Recebimento</a></li>
                         <li><a href="dashboard_5.html">Plano de Contas</a></li>
                         <li><a href="dashboard_5.html">Relatórios</a></li>
                         <li><a href="dashboard_5.html">Ocorrências</a></li>
@@ -254,7 +271,7 @@ $proprietario = new Proprietario();
 
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-11">
-                    <h2>Unidade</h2>
+                    <h2>Formas de Recebimento</h2>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
                             <a href="index.html">Dados do Condomínio</a>
@@ -263,13 +280,13 @@ $proprietario = new Proprietario();
                             <a>Unidade</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="responsavel_legal.php">Resposáveis Legais</a>
+                            <a>Resposáveis Legais</a>
                         </li>
                         <li class="breadcrumb-item">
                             <a>Contas bancárias</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a>Formas de Recebimento</a>
+                            <a href="forma_recebimento.php">Formas de Recebimento</a>
                         </li>
                         <li class="breadcrumb-item">
                             <a>Plano de Contas</a>
@@ -292,74 +309,41 @@ $proprietario = new Proprietario();
             <!--Inicio da row das tabs-->
             <div class="row">
               <div class="col-lg-8">
+
+
                 <div class="row">
                   <div class="col-lg-12">
                     <div class="ibox">
-                      <div class="ibox-content">
-                        <div class="row">
-                          <br>
-                          <br>
-                          <div class="col-md-4">
-
-                           <p><i class="fa fa-home fa-3x"> 1 </i> Unidade em 1 bloco</p>
-
-
-                          </div>
-
-                          <div class="col-md-4">
-                            <p><i class="fa fa-home fa-3x"> ZERO </i> Unidade em 1 bloco</p>
-                          </div>
-
-                          <div class="col-md-4">
-                            GRAFICO
-                          </div>
-
-                          <div class="col-lg-12">
-                            <button type="button" data-toggle="modal" data-target="#modal_adicionar_unidade" class="btn btn-primary btn-sm" name="button"> <i class="fa fa-plus"> Adicione uma nova unidade</i> </button>
-                            <button type="button" data-toggle="modal" data-target="#modal_adicionar_unidade" class="btn btn-primary btn-sm" name="button"> <i class="fa fa-plus"> Adicione várias unidades</i> </button>
-                          </div>
-
-                        </div>
+                      <div class="ibox-title">
+                        <h5>Formas de Recebimento</h5>
                       </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-12">
-                    <div class="ibox">
                       <div class="ibox-content">
-                        <div class="row">
-                          <div class="col-md-12">
-                            <div class="table-responsive">
-                              <table class="table table-striped table-bordered table-hover dataTables-example" >
-                              <thead>
-                              <tr>
-                                  <th></th>
-                                  <th>Nome</th>
-                                  <th>Email</th>
-                                  <th>#</th>
 
-                              </tr>
-                              </thead>
-                              <tbody>
-                                <?php
-                                foreach ($proprietario->listar(4) as $key => $value) {
-                                 ?>
-                                <tr>
-                                  <td> <input type="checkbox" name="" value=""> </td>
-                                  <td><?php echo $value->nome ?></td>
-                                  <td><?php echo $value->email ?></td>
-                                  <td> <i class="fa fa-user"></i> </td>
-                                </tr>
+                          <form class="" action="index.html" method="post">
+                            <div class="row">
+                                <div class="col-lg-4">
 
-                                <?php
-                              }
-                                 ?>
-                              </table>
+                                  <button type="submit" name="button" class="btn btn-primary"> <i class="fa fa-plus"></i> Nova forma de receber</button>
+
+                                  <br>
+                                  <br>
+                                  <div class="feed-activity-list">
+
+                                      <div class="feed-element">
+
+                                          <div class="media-body ">
+                                              <small class="float-right"> </small>
+                                              <strong>Boleto via PJBank </strong>(Conta Principal)  <br>
+
+
+                                          </div>
+                                      </div>
+
+                                  </div>
+
+                                </div>
                             </div>
-                          </div>
-                        </div>
+                          </form>
                       </div>
                     </div>
                   </div>
@@ -373,63 +357,45 @@ $proprietario = new Proprietario();
                   <div class="col-md-12">
                     <div class="ibox ">
                         <div class="ibox-title">
-                            <h5>Blocos</h5>
+                            <h5>Taxas Praticadas</h5>
                             <div class="ibox-tools">
-                                <span class="label label-primary float-right">10 Blocos</span>
+                                <!--<span class="label label-warning-light float-right">1 Conta</span>-->
                                </div>
                         </div>
                         <div class="ibox-content">
 
                             <div>
-                                <div class="feed-activity-list">
+                              <h3>Juros</h3>
+                              <hr>
 
-                                    <div class="feed-element">
-
-                                        <div class="media-body ">
-                                            <p class="label label-primary float-right">1</p>
-                                            <strong>Todas as unidades em bloco</strong> <br>
-                                            <!--<small class="text-muted">Today 5:60 pm - 12.06.2014</small>-->
-
-                                        </div>
-                                    </div>
-
+                                <div class="form-group  row"><label class="col-form-label">Taxa de juros mensal (%)</label>
+                                    <div class="col-sm-11"><input type="text" class="form-control" name="juro" id="juro" placeholder="4,00"></div>
                                 </div>
 
 
-                            </div>
+                                    <div class="col-sm-10">
+                                        <div class="i-checks"><label> <input type="checkbox" name="prd" id="prd" value="" checked=""> <i></i> Pro rata dia </label></div>
 
-                        </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="ibox ">
-                        <div class="ibox-title">
-                            <h5>Grupos de Unidades</h5>
-                            <div class="ibox-tools">
-                                <span class="label label-warning-light float-right">10 Messages</span>
-                               </div>
-                        </div>
-                        <div class="ibox-content">
-
-                            <div>
-                                <div class="feed-activity-list">
-
-                                    <div class="feed-element">
-
-                                        <div class="media-body ">
-                                            <small class="float-right">5m ago</small>
-                                            <strong>Monica Silva</strong> adicionou uma ocorrencia. <br>
-                                            <small class="text-muted">Hoje 15:60 - 12.06.2014</small>
-
-                                        </div>
                                     </div>
+                              <br>
+                              <h3>Multas</h3>
+                              <hr>
 
+                                <div class="form-group  row"><label class="col-form-label">Taxa de multa (%)</label>
+                                    <div class="col-sm-11"><input type="text" name="taxa" id="taxa" class="form-control"></div>
                                 </div>
 
-                                <button class="btn btn-primary btn-block m-t"><i class="fa fa-plus"></i> Novo Grupo</button>
+
+                                    <div class="col-sm-10">
+                                        <div class="i-checks"><label> <input type="checkbox" name="uvp" id="uvp" value="" checked=""> <i></i> Calcular usando valor principal + juros </label></div>
+                                    </div>
+                              <br>
+
+                              <h3>Descontos para pagamento antecipado</h3>
+
+                              <br>
+
+                                <button class="btn btn-primary btn-block m-t"><i class="fa fa-check"></i> Salvar</button>
 
                             </div>
 
@@ -443,80 +409,82 @@ $proprietario = new Proprietario();
             <!--Fim da row das tabs-->
 
             <!--Adicionar Unidade-->
-            <div class="modal inmodal" id="modal_adicionar_unidade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal inmodal" id="modal_adicionar_responsavel" tabindex="-1" role="dialog" aria-hidden="true">
 
                 <div class="modal-dialog modal-lg">
                 <div class="modal-content animated bounceInRight" id="pwd-container1">
 
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                            <i class="fa fa-home modal-icon"></i>
-                            <h4 class="modal-title">Nova Unidade</h4>
+                            <i class="fa fa-user-plus modal-icon"></i>
+                            <h4 class="modal-title">Novo Responsavel Legal</h4>
                             <small class="font-bold">Adicione um usuário para ter acesso ao sistema.</small>
                         </div>
                         <div class="modal-body">
 
                         <form id="form" action="#" class="wizard-big" method="post" onsubmit="return adicionarUnidade(this)">
-                            <h1>Unidade</h1>
+                            <h1>Pessoal</h1>
                             <fieldset>
 
                                 <div class="row">
-                                    <div class="col-lg-6">
-                                      <div class="form-group"><label>Unidade</label> <input type="text" name="unidade" id="unidade" placeholder="ex.:1001" class="form-control" required></div>
-
-                                      <div class="form-group"><label>Área(M)</label> <input type="text" name="area" id="area" placeholder="ex.:1000" class="form-control example1"></div>
-
-                                      <div class="form-group"><label>Abatimento(%)</label> <input type="text" name="abatimento" id="abatimento" placeholder="ex.:2,00" class="form-control"></div>
+                                    <div class="col-lg-12">
+                                      <div class="form-group"><label>Nome Completo</label> <input type="text" name="unidade" id="unidade" class="form-control" required></div>
                                     </div>
-                                    <div class="col-lg-6">
 
-                                      <div class="form-group"><label>Bloco</label> <input type="text" name="bloco" id="bloco" placeholder="ex.:A" class="form-control"></div>
-
-                                      <div class="form-group"><label>Fração(%)</label> <input type="text" name="fracao" id="fracao" placeholder="ex.:2,00" class="form-control"></div>
-
+                                    <div class="col-lg-4">
+                                      <div class="form-group"><label>RG</label> <input type="text" name="area" id="area" class="form-control example1"></div>
                                     </div>
+                                    <div class="col-lg-4">
+                                      <div class="form-group"><label>CPF</label> <input type="text" name="abatimento" id="abatimento" class="form-control"></div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                      <div class="form-group"><label>Data de Nascimento</label> <input type="text" name="bloco" id="bloco" class="form-control"></div>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                      <div class="form-group"><label>Cargo</label> <input type="text" name="unidade" id="unidade" class="form-control" required></div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                      <div class="form-group"><label>Telefone</label> <input type="text" name="area" id="area" class="form-control example1"></div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                      <div class="form-group"><label>Celular</label> <input type="text" name="abatimento" id="abatimento" class="form-control"></div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                      <div class="form-group"><label>Email</label> <input type="text" name="bloco" id="bloco" class="form-control"></div>
+                                    </div>
+
                                 </div>
 
                             </fieldset>
-                            <h1>Proprietário</h1>
+                            <h1>Mandato</h1>
                             <fieldset>
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label>Proprietário</label>
-                                            <input id="proprietario" name="proprietario" type="text" class="form-control required">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>CPF/CNPJ</label>
-                                            <input id="cpfcnpj" name="cpfcnpj" type="text" class="form-control required">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Telefone</label>
-                                            <input id="telefone" name="telefone" type="text" class="form-control">
+                                            <label>Data Inicio</label>
+                                            <input id="data_inicio" name="data_inicio" type="date" class="form-control required">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label>RG</label>
-                                            <input id="rg" name="rg" type="text" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Data de Nascimento</label>
-                                            <input id="dtnascimento" name="dtnascimento" type="text" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Celular</label>
-                                            <input id="celular" name="celular" type="text" class="form-control">
+                                            <label>Data Final</label>
+                                            <input id="data_final" name="data_final" type="date" class="form-control">
                                         </div>
                                     </div>
 
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label>Email</label>
-                                            <input id="email" name="email" type="text" class="form-control">
+                                            <label>Observação</label>
+                                            <textarea id="obs" name="obs" rows="7" class="form-control"></textarea>
                                         </div>
-
                                     </div>
+
+                                    <div class="col-sm-10">
+                                        <div class="i-checks"><label> <input type="checkbox" name="notificacao_reserva" id="notificacao_reserva" value=""> <i></i> Receber notificação de reserva. </label></div>
+                                    </div>
+
+
                                 </div>
                             </fieldset>
 
@@ -527,7 +495,7 @@ $proprietario = new Proprietario();
                                   <div class="col-lg-6">
                                       <div class="form-group">
                                           <label>CEP</label>
-                                          <input id="cep" name="cep" type="text" class="form-control required">
+                                          <input id="cep" name="cep" onblur="buscarEndereco(this)" type="text" class="form-control required">
                                       </div>
                                       <div class="form-group">
                                           <label>Rua</label>
@@ -615,6 +583,196 @@ $proprietario = new Proprietario();
                 </div>
 
             </div>
+
+            <!--Adicionar Unidade-->
+            <div class="modal inmodal" id="modal_responsabilidade" tabindex="-1" role="dialog" aria-hidden="true">
+
+                <div class="modal-dialog modal-lg">
+                <div class="modal-content animated bounceInRight" id="pwd-container1">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <i class="fa fa-list modal-icon"></i>
+                            <h4 class="modal-title">Permissões</h4>
+                            <small class="font-bold">Gerencie as permissões do responsável no sistema.</small>
+                        </div>
+                        <div class="modal-body">
+
+                        <form id="form2" action="#" class="wizard-big" method="post" onsubmit="return adicionarUnidade(this)">
+                            <h1>Grupo 1</h1>
+                            <fieldset>
+
+                                <div class="row">
+
+                                    <div class="col-lg-3">
+                                      <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 1</label></div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                      <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 2</label></div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                      <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 3</label></div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                      <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 4</label></div>
+                                    </div>
+
+                                    <br>
+                                    <br>
+                                    <br>
+
+                                    <div class="col-lg-3">
+                                      <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 1</label></div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                      <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 2</label></div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                      <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 3</label></div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                      <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 4</label></div>
+                                    </div>
+
+                                </div>
+
+                            </fieldset>
+                            <h1>Grupo 2</h1>
+                            <fieldset>
+                              <div class="row">
+
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 1</label></div>
+                                  </div>
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 2</label></div>
+                                  </div>
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 3</label></div>
+                                  </div>
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 4</label></div>
+                                  </div>
+
+                                  <br>
+                                  <br>
+                                  <br>
+
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 1</label></div>
+                                  </div>
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 2</label></div>
+                                  </div>
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 3</label></div>
+                                  </div>
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 4</label></div>
+                                  </div>
+
+                              </div>
+                            </fieldset>
+
+                            <h1>Grupo 3</h1>
+                            <fieldset>
+
+                              <div class="row">
+
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 1</label></div>
+                                  </div>
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 2</label></div>
+                                  </div>
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 3</label></div>
+                                  </div>
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 4</label></div>
+                                  </div>
+
+                                  <br>
+                                  <br>
+                                  <br>
+
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 1</label></div>
+                                  </div>
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 2</label></div>
+                                  </div>
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 3</label></div>
+                                  </div>
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 4</label></div>
+                                  </div>
+
+                              </div>
+
+                            </fieldset>
+
+                            <h1>Grupo 4</h1>
+                            <fieldset>
+
+                              <div class="row">
+
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 1</label></div>
+                                  </div>
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 2</label></div>
+                                  </div>
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 3</label></div>
+                                  </div>
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 4</label></div>
+                                  </div>
+
+                                  <br>
+                                  <br>
+                                  <br>
+
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 1</label></div>
+                                  </div>
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 2</label></div>
+                                  </div>
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 3</label></div>
+                                  </div>
+                                  <div class="col-lg-3">
+                                    <div class="i-checks"><label> <input type="checkbox" name="" id="" value="" checked=""> <i></i> Permissão 4</label></div>
+                                  </div>
+
+                              </div>
+
+                            </fieldset>
+
+                            <!--
+                            <h1>Finish</h1>
+                            <fieldset>
+                                <h2>Terms and Conditions</h2>
+                                <input id="acceptTerms" name="acceptTerms" type="checkbox" class="required"> <label for="acceptTerms">I agree with the Terms and Conditions.</label>
+                            </fieldset>
+
+                          -->
+                        </form>
+
+                      </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-white" data-dismiss="modal">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
         </div>
         </div>
         </div>
@@ -643,6 +801,86 @@ $proprietario = new Proprietario();
     <!-- Jquery Validate -->
     <script src="js/plugins/validate/jquery.validate.min.js"></script>
 
+    <script>
+        $(document).ready(function(){
+            //$("#wizard").steps();
+            $("#form2").steps({
+                bodyTag: "fieldset",
+                onStepChanging: function (event, currentIndex, newIndex)
+                {
+                    // Always allow going backward even if the current step contains invalid fields!
+                    if (currentIndex > newIndex)
+                    {
+                        return true;
+                    }
+
+                    // Forbid suppressing "Warning" step if the user is to young
+                    if (newIndex === 3 && Number($("#age").val()) < 18)
+                    {
+                        return false;
+                    }
+
+                    var form = $(this);
+
+                    // Clean up if user went backward before
+                    if (currentIndex < newIndex)
+                    {
+                        // To remove error styles
+                        $(".body:eq(" + newIndex + ") label.error", form).remove();
+                        $(".body:eq(" + newIndex + ") .error", form).removeClass("error");
+                    }
+
+                    // Disable validation on fields that are disabled or hidden.
+                    form.validate().settings.ignore = ":disabled,:hidden";
+
+                    // Start validation; Prevent going forward if false
+                    return form.valid();
+                },
+                onStepChanged: function (event, currentIndex, priorIndex)
+                {
+                    // Suppress (skip) "Warning" step if the user is old enough.
+                    if (currentIndex === 2 && Number($("#age").val()) >= 18)
+                    {
+                        $(this).steps("Próximo");
+                    }
+
+                    // Suppress (skip) "Warning" step if the user is old enough and wants to the previous step.
+                    if (currentIndex === 2 && priorIndex === 3)
+                    {
+                        $(this).steps("Anterior");
+                    }
+                },
+                onFinishing: function (event, currentIndex)
+                {
+                    var form = $(this);
+
+                    // Disable validation on fields that are disabled.
+                    // At this point it's recommended to do an overall check (mean ignoring only disabled fields)
+                    form.validate().settings.ignore = ":disabled";
+
+                    // Start validation; Prevent form submission if false
+                    return form.valid();
+                },
+                onFinished: function (event, currentIndex)
+                {
+                    var form = $(this);
+
+                    // Submit form input
+                    form.submit();
+                }
+            }).validate({
+                        errorPlacement: function (error, element)
+                        {
+                            element.before(error);
+                        },
+                        rules: {
+                            confirm: {
+                                equalTo: "#password"
+                            }
+                        }
+                    });
+       });
+    </script>
 
             <script>
                 $(document).ready(function(){
