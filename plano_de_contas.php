@@ -270,7 +270,7 @@
         </div>
 
             <div class="row wrapper border-bottom white-bg page-heading">
-                <div class="col-lg-11">
+                <div class="col-lg-12">
                     <h2>Plano de Contas</h2>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
@@ -338,7 +338,7 @@
 
                                               <div class="media-body ">
                                                   <small class="float-right"> </small>
-                                                  <strong>Plano de Contas </strong>(Padrão)  <br>
+                                                  <strong> <a href="#" data-toggle="modal" data-target="#modal_plano_conta" > Plano de Contas </a></strong>(Padrão)  <br>
                                               </div>
                                           </div>
 
@@ -363,7 +363,7 @@
             <!--Fim da row das tabs-->
 
             <!--Adicionar Unidade-->
-            <div class="modal inmodal" id="modal_adicionar_responsavel" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal inmodal" id="modal_plano_conta" tabindex="-1" role="dialog" aria-hidden="true">
 
                 <div class="modal-dialog modal-lg">
                 <div class="modal-content animated bounceInRight" id="pwd-container1">
@@ -371,164 +371,60 @@
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                             <i class="fa fa-user-plus modal-icon"></i>
-                            <h4 class="modal-title">Novo Responsavel Legal</h4>
-                            <small class="font-bold">Adicione um usuário para ter acesso ao sistema.</small>
+                            <h4 class="modal-title">Plano de Contas</h4>
+                            <small class="font-bold">Gerencie o plano de contas do condomínio.</small>
                         </div>
                         <div class="modal-body">
+                          <div class="dd" id="nestable">
+                                <ol class="dd-list">
 
-                        <form id="form" action="#" class="wizard-big" method="post" onsubmit="return adicionarUnidade(this)">
-                            <h1>Pessoal</h1>
-                            <fieldset>
+                                    <li class="dd-item dd-collapsed" data-id="2">
+                                        <div class="dd-handle">01 - Despesas</div>
+                                        <ol class="dd-list">
+                                            <li class="dd-item" data-id="3">
+                                                <div class="dd-handle">01.01 - Aluguel</div>
+                                            </li>
+                                            <li class="dd-item" data-id="4">
+                                                <div class="dd-handle">01.02 - Água</div>
+                                            </li>
+                                            <li class="dd-item" data-id="4">
+                                                <div class="dd-handle">01.03 - Energia</div>
+                                            </li>
+                                            <li class="dd-item" data-id="4">
+                                                <div class="dd-handle">01.04 - Telefonia e Internet</div>
+                                            </li>
 
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                      <div class="form-group"><label>Nome Completo</label> <input type="text" name="unidade" id="unidade" class="form-control" required></div>
-                                    </div>
+                                        </ol>
+                                    </li>
+                                    <li class="dd-item dd-collapsed" data-id="5">
+                                        <div class="dd-handle">02 - Gastos com pessoal</div>
+                                        <ol class="dd-list">
+                                            <li class="dd-item" data-id="6">
+                                                <div class="dd-handle">02.01 - Benefícios</div>
+                                            </li>
+                                            <li class="dd-item" data-id="7">
+                                                <div class="dd-handle">02.02 - Encargos</div>
+                                            </li><li class="dd-item" data-id="7">
+                                                <div class="dd-handle">02.03 - Salários</div>
+                                            </li>
+                                        </ol>
+                                    </li>
+<!--7005330720-->
+                                    <li class="dd-item dd-collapsed" data-id="5">
+                                        <div class="dd-handle">03 - Manutenção e Limpeza</div>
+                                        <ol class="dd-list">
+                                            <li class="dd-item" data-id="6">
+                                                <div class="dd-handle">03.01 - Serviços de Limpeza</div>
+                                            </li>
+                                            <li class="dd-item" data-id="7">
+                                                <div class="dd-handle">03.01 - Serviços de Manutenção</div>
+                                            </li>
+                                        </ol>
+                                    </li>
 
-                                    <div class="col-lg-4">
-                                      <div class="form-group"><label>RG</label> <input type="text" name="area" id="area" class="form-control example1"></div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                      <div class="form-group"><label>CPF</label> <input type="text" name="abatimento" id="abatimento" class="form-control"></div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                      <div class="form-group"><label>Data de Nascimento</label> <input type="text" name="bloco" id="bloco" class="form-control"></div>
-                                    </div>
-
-                                    <div class="col-lg-12">
-                                      <div class="form-group"><label>Cargo</label> <input type="text" name="unidade" id="unidade" class="form-control" required></div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                      <div class="form-group"><label>Telefone</label> <input type="text" name="area" id="area" class="form-control example1"></div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                      <div class="form-group"><label>Celular</label> <input type="text" name="abatimento" id="abatimento" class="form-control"></div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                      <div class="form-group"><label>Email</label> <input type="text" name="bloco" id="bloco" class="form-control"></div>
-                                    </div>
-
-                                </div>
-
-                            </fieldset>
-                            <h1>Mandato</h1>
-                            <fieldset>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>Data Inicio</label>
-                                            <input id="data_inicio" name="data_inicio" type="date" class="form-control required">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>Data Final</label>
-                                            <input id="data_final" name="data_final" type="date" class="form-control">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label>Observação</label>
-                                            <textarea id="obs" name="obs" rows="7" class="form-control"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-10">
-                                        <div class="i-checks"><label> <input type="checkbox" name="notificacao_reserva" id="notificacao_reserva" value=""> <i></i> Receber notificação de reserva. </label></div>
-                                    </div>
-
-
-                                </div>
-                            </fieldset>
-
-                            <h1>Endereço</h1>
-                            <fieldset>
-
-                              <div class="row">
-                                  <div class="col-lg-6">
-                                      <div class="form-group">
-                                          <label>CEP</label>
-                                          <input id="cep" name="cep" onblur="buscarEndereco(this)" type="text" class="form-control required">
-                                      </div>
-                                      <div class="form-group">
-                                          <label>Rua</label>
-                                          <input id="rua" name="rua" type="text" class="form-control required">
-                                      </div>
-                                      <div class="form-group">
-                                          <label>Complemento</label>
-                                          <input id="complemento" name="complemento" type="text" class="form-control">
-                                      </div>
-                                  </div>
-                                  <div class="col-lg-6">
-                                      <div class="form-group">
-                                          <label>UF</label>
-                                          <input id="uf" name="uf" type="text" class="form-control">
-                                      </div>
-                                      <div class="form-group">
-                                          <label>Bairro</label>
-                                          <input id="bairro" name="bairro" type="text" class="form-control">
-                                      </div>
-                                      <div class="form-group">
-                                          <label>Cidade</label>
-                                          <input id="cidade" name="cidade" type="text" class="form-control">
-                                      </div>
-                                  </div>
-
-                              </div>
-                              <!--
-                              <div class="form-group  row">
-                                <label class="col-sm-1 col-form-label">CEP</label>
-                                  <div class="col-sm-5">
-                                    <input type="text" name="cep" id="cep" onblur="buscarEndereco(this)" class="form-control">
-                                  </div>
-
-                                  <label class="col-sm-1 col-form-label">UF</label>
-                                    <div class="col-sm-5">
-                                      <select class="form-control" id="uf" name="uf">
-                                          <option value="1">RN</option>
-                                      </select>
-                                    </div>
-                              </div>
-
-                              <div class="form-group  row">
-                                <label class="col-sm-1 col-form-label">Rua</label>
-                                  <div class="col-sm-5">
-                                    <input type="text" class="form-control"  name="rua" id="rua">
-                                  </div>
-
-                                  <label class="col-sm-1 col-form-label">Comp.</label>
-                                    <div class="col-sm-5">
-                                      <input type="text" class="form-control" name="complemento" id="complemento">
-                                    </div>
-                              </div>
-
-                              <div class="form-group  row">
-                                <label class="col-sm-1 col-form-label">Bairro</label>
-                                  <div class="col-sm-5">
-                                    <input type="text" class="form-control" name="bairro" id="bairro">
-                                  </div>
-
-                                  <label class="col-sm-1 col-form-label">Cidade</label>
-                                    <div class="col-sm-5">
-                                      <input type="text" class="form-control" name="cidade" id="cidade">
-                                    </div>
-                              </div>
-
-                            -->
-                            </fieldset>
-
-                            <!--
-                            <h1>Finish</h1>
-                            <fieldset>
-                                <h2>Terms and Conditions</h2>
-                                <input id="acceptTerms" name="acceptTerms" type="checkbox" class="required"> <label for="acceptTerms">I agree with the Terms and Conditions.</label>
-                            </fieldset>
-
-                          -->
-                        </form>
-
-                      </div>
+                                </ol>
+                            </div>
+                        </div>
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-white" data-dismiss="modal">Fechar</button>
@@ -754,6 +650,48 @@
 
     <!-- Jquery Validate -->
     <script src="js/plugins/validate/jquery.validate.min.js"></script>
+
+    <!-- Nestable List -->
+<script src="js/plugins/nestable/jquery.nestable.js"></script>
+
+<script>
+     $(document).ready(function(){
+
+         var updateOutput = function (e) {
+             var list = e.length ? e : $(e.target),
+                     output = list.data('output');
+             if (window.JSON) {
+                 output.val(window.JSON.stringify(list.nestable('serialize')));//, null, 2));
+             } else {
+                 output.val('JSON browser support required for this demo.');
+             }
+         };
+         // activate Nestable for list 1
+         $('#nestable').nestable({
+             group: 1
+         }).on('change', updateOutput);
+
+         // activate Nestable for list 2
+         $('#nestable2').nestable({
+             group: 1
+         }).on('change', updateOutput);
+
+         // output initial serialised data
+         updateOutput($('#nestable').data('output', $('#nestable-output')));
+         updateOutput($('#nestable2').data('output', $('#nestable2-output')));
+
+         $('#nestable-menu').on('click', function (e) {
+             var target = $(e.target),
+                     action = target.data('action');
+             if (action === 'expand-all') {
+                 $('.dd').nestable('expandAll');
+             }
+             if (action === 'collapse-all') {
+                 $('.dd').nestable('collapseAll');
+             }
+         });
+     });
+</script>
 
     <script>
         $(document).ready(function(){
