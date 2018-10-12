@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.9
+-- version 4.7.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Sep 21, 2018 at 02:42 AM
--- Server version: 10.1.31-MariaDB
--- PHP Version: 5.6.34
+-- Host: 127.0.0.1
+-- Generation Time: 13-Out-2018 às 01:44
+-- Versão do servidor: 10.1.25-MariaDB
+-- PHP Version: 7.1.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `arrecadacoes`
+-- Estrutura da tabela `arrecadacoes`
 --
 
 CREATE TABLE `arrecadacoes` (
@@ -37,7 +37,7 @@ CREATE TABLE `arrecadacoes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `arrecadacoes`
+-- Extraindo dados da tabela `arrecadacoes`
 --
 
 INSERT INTO `arrecadacoes` (`id`, `dia`, `competencia_id`, `condominio_id`, `unico_boleto`) VALUES
@@ -53,7 +53,7 @@ INSERT INTO `arrecadacoes` (`id`, `dia`, `competencia_id`, `condominio_id`, `uni
 -- --------------------------------------------------------
 
 --
--- Table structure for table `competencia`
+-- Estrutura da tabela `competencia`
 --
 
 CREATE TABLE `competencia` (
@@ -62,7 +62,7 @@ CREATE TABLE `competencia` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `competencia`
+-- Extraindo dados da tabela `competencia`
 --
 
 INSERT INTO `competencia` (`id`, `competencia`) VALUES
@@ -72,7 +72,7 @@ INSERT INTO `competencia` (`id`, `competencia`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `condominio`
+-- Estrutura da tabela `condominio`
 --
 
 CREATE TABLE `condominio` (
@@ -91,7 +91,7 @@ CREATE TABLE `condominio` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `condominio`
+-- Extraindo dados da tabela `condominio`
 --
 
 INSERT INTO `condominio` (`id`, `cnpj`, `identificacao`, `nome`, `nome_fantasia`, `inscricao_estadual`, `inscricao_municipal`, `email`, `telefone`, `celular`, `sts`, `usr_id`) VALUES
@@ -101,7 +101,32 @@ INSERT INTO `condominio` (`id`, `cnpj`, `identificacao`, `nome`, `nome_fantasia`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `endereco`
+-- Estrutura da tabela `conta`
+--
+
+CREATE TABLE `conta` (
+  `id` int(11) NOT NULL,
+  `conta` varchar(50) DEFAULT NULL,
+  `descricao` varchar(100) DEFAULT NULL,
+  `grupo_conta_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `conta`
+--
+
+INSERT INTO `conta` (`id`, `conta`, `descricao`, `grupo_conta_id`) VALUES
+(1, '1.1', 'Cotas do Mes', 2),
+(2, '1.2', 'Juros', 2),
+(3, '1.3', 'Multas', 2),
+(4, '1.4', 'Descontos', 2),
+(5, '1.5', 'Tarifa Bancaria', 2),
+(6, '1.6', 'Rendimento de Poupanca', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `endereco`
 --
 
 CREATE TABLE `endereco` (
@@ -115,7 +140,7 @@ CREATE TABLE `endereco` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `endereco`
+-- Extraindo dados da tabela `endereco`
 --
 
 INSERT INTO `endereco` (`id`, `cep`, `rua`, `complemento`, `bairro`, `cidade`, `uf`) VALUES
@@ -128,7 +153,38 @@ INSERT INTO `endereco` (`id`, `cep`, `rua`, `complemento`, `bairro`, `cidade`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `inadinplencia`
+-- Estrutura da tabela `fornecedor`
+--
+
+CREATE TABLE `fornecedor` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `grupo_conta`
+--
+
+CREATE TABLE `grupo_conta` (
+  `id` int(11) NOT NULL,
+  `conta` varchar(50) DEFAULT NULL,
+  `descricao` varchar(100) DEFAULT NULL,
+  `condominio_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `grupo_conta`
+--
+
+INSERT INTO `grupo_conta` (`id`, `conta`, `descricao`, `condominio_id`) VALUES
+(2, '1', 'Receitas', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `inadinplencia`
 --
 
 CREATE TABLE `inadinplencia` (
@@ -140,7 +196,7 @@ CREATE TABLE `inadinplencia` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `inadinplencia`
+-- Extraindo dados da tabela `inadinplencia`
 --
 
 INSERT INTO `inadinplencia` (`id`, `honorario_advogado`, `dias_para_inadinplencia`, `dias_para_processar`, `condominio_id`) VALUES
@@ -153,7 +209,7 @@ INSERT INTO `inadinplencia` (`id`, `honorario_advogado`, `dias_para_inadinplenci
 -- --------------------------------------------------------
 
 --
--- Table structure for table `instrucao_acordo`
+-- Estrutura da tabela `instrucao_acordo`
 --
 
 CREATE TABLE `instrucao_acordo` (
@@ -166,7 +222,7 @@ CREATE TABLE `instrucao_acordo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `instrucao_acordo`
+-- Extraindo dados da tabela `instrucao_acordo`
 --
 
 INSERT INTO `instrucao_acordo` (`id`, `primeira_linha`, `segunda_linha`, `terceira_linha`, `quarta_linha`, `condominio_id`) VALUES
@@ -175,7 +231,7 @@ INSERT INTO `instrucao_acordo` (`id`, `primeira_linha`, `segunda_linha`, `tercei
 -- --------------------------------------------------------
 
 --
--- Table structure for table `instrucao_boleto`
+-- Estrutura da tabela `instrucao_boleto`
 --
 
 CREATE TABLE `instrucao_boleto` (
@@ -188,7 +244,7 @@ CREATE TABLE `instrucao_boleto` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `instrucao_boleto`
+-- Extraindo dados da tabela `instrucao_boleto`
 --
 
 INSERT INTO `instrucao_boleto` (`id`, `primeira_linha`, `segunda_linha`, `terceira_linha`, `quarta_linha`, `condominio_id`) VALUES
@@ -198,7 +254,7 @@ INSERT INTO `instrucao_boleto` (`id`, `primeira_linha`, `segunda_linha`, `tercei
 -- --------------------------------------------------------
 
 --
--- Table structure for table `juro`
+-- Estrutura da tabela `juro`
 --
 
 CREATE TABLE `juro` (
@@ -209,7 +265,7 @@ CREATE TABLE `juro` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `juro`
+-- Extraindo dados da tabela `juro`
 --
 
 INSERT INTO `juro` (`id`, `juro`, `prd`, `condominio_id`) VALUES
@@ -224,7 +280,42 @@ INSERT INTO `juro` (`id`, `juro`, `prd`, `condominio_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `multa`
+-- Estrutura da tabela `manutencao`
+--
+
+CREATE TABLE `manutencao` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(255) DEFAULT NULL,
+  `periodicidade` int(11) NOT NULL,
+  `condominio_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `manutencao`
+--
+
+INSERT INTO `manutencao` (`id`, `nome`, `periodicidade`, `condominio_id`) VALUES
+(1, 'Elevador', 6, 4),
+(2, 'Extintor', 12, 4),
+(3, 'Caixa de agua', 6, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `manutencoes_realizadas`
+--
+
+CREATE TABLE `manutencoes_realizadas` (
+  `manutencao_id` int(11) NOT NULL,
+  `fornecedor_id` int(11) NOT NULL,
+  `date_manutencao` date DEFAULT NULL,
+  `realizada` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `multa`
 --
 
 CREATE TABLE `multa` (
@@ -235,7 +326,7 @@ CREATE TABLE `multa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `multa`
+-- Extraindo dados da tabela `multa`
 --
 
 INSERT INTO `multa` (`id`, `taxa`, `condominio_id`, `uvp`) VALUES
@@ -249,7 +340,7 @@ INSERT INTO `multa` (`id`, `taxa`, `condominio_id`, `uvp`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pagador_boleros`
+-- Estrutura da tabela `pagador_boleros`
 --
 
 CREATE TABLE `pagador_boleros` (
@@ -262,7 +353,7 @@ CREATE TABLE `pagador_boleros` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `pagador_boleros`
+-- Extraindo dados da tabela `pagador_boleros`
 --
 
 INSERT INTO `pagador_boleros` (`id`, `eou_inquilino`, `nome_inquilino`, `apenas_nome_inquilino`, `sacador_numero`, `condominio_id`) VALUES
@@ -274,7 +365,7 @@ INSERT INTO `pagador_boleros` (`id`, `eou_inquilino`, `nome_inquilino`, `apenas_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proprietario`
+-- Estrutura da tabela `proprietario`
 --
 
 CREATE TABLE `proprietario` (
@@ -290,7 +381,7 @@ CREATE TABLE `proprietario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `proprietario`
+-- Extraindo dados da tabela `proprietario`
 --
 
 INSERT INTO `proprietario` (`id`, `nome`, `rg`, `cpf`, `dtnascimento`, `telefone`, `celular`, `email`, `unidade_id`) VALUES
@@ -300,7 +391,7 @@ INSERT INTO `proprietario` (`id`, `nome`, `rg`, `cpf`, `dtnascimento`, `telefone
 -- --------------------------------------------------------
 
 --
--- Table structure for table `uf`
+-- Estrutura da tabela `uf`
 --
 
 CREATE TABLE `uf` (
@@ -309,7 +400,7 @@ CREATE TABLE `uf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `uf`
+-- Extraindo dados da tabela `uf`
 --
 
 INSERT INTO `uf` (`id`, `uf`) VALUES
@@ -344,7 +435,7 @@ INSERT INTO `uf` (`id`, `uf`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `unidade`
+-- Estrutura da tabela `unidade`
 --
 
 CREATE TABLE `unidade` (
@@ -358,7 +449,7 @@ CREATE TABLE `unidade` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `unidade`
+-- Extraindo dados da tabela `unidade`
 --
 
 INSERT INTO `unidade` (`id`, `unidade`, `bloco`, `area`, `fracao`, `abatimento`, `condominio_id`) VALUES
@@ -370,7 +461,7 @@ INSERT INTO `unidade` (`id`, `unidade`, `bloco`, `area`, `fracao`, `abatimento`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usuario`
+-- Estrutura da tabela `usuario`
 --
 
 CREATE TABLE `usuario` (
@@ -381,7 +472,7 @@ CREATE TABLE `usuario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `usuario`
+-- Extraindo dados da tabela `usuario`
 --
 
 INSERT INTO `usuario` (`id`, `nome`, `email`, `senha`) VALUES
@@ -390,7 +481,7 @@ INSERT INTO `usuario` (`id`, `nome`, `email`, `senha`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usuario_adicional`
+-- Estrutura da tabela `usuario_adicional`
 --
 
 CREATE TABLE `usuario_adicional` (
@@ -403,7 +494,7 @@ CREATE TABLE `usuario_adicional` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `usuario_adicional`
+-- Extraindo dados da tabela `usuario_adicional`
 --
 
 INSERT INTO `usuario_adicional` (`id`, `email`, `nome`, `senha`, `condominio_id`, `sts`) VALUES
@@ -438,11 +529,31 @@ ALTER TABLE `condominio`
   ADD KEY `usr_id` (`usr_id`);
 
 --
+-- Indexes for table `conta`
+--
+ALTER TABLE `conta`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `grupo_conta_id` (`grupo_conta_id`);
+
+--
 -- Indexes for table `endereco`
 --
 ALTER TABLE `endereco`
   ADD PRIMARY KEY (`id`),
   ADD KEY `uf` (`uf`);
+
+--
+-- Indexes for table `fornecedor`
+--
+ALTER TABLE `fornecedor`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `grupo_conta`
+--
+ALTER TABLE `grupo_conta`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `condominio_id` (`condominio_id`);
 
 --
 -- Indexes for table `inadinplencia`
@@ -471,6 +582,20 @@ ALTER TABLE `instrucao_boleto`
 ALTER TABLE `juro`
   ADD PRIMARY KEY (`id`),
   ADD KEY `condominio_id` (`condominio_id`);
+
+--
+-- Indexes for table `manutencao`
+--
+ALTER TABLE `manutencao`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `condominio_id` (`condominio_id`);
+
+--
+-- Indexes for table `manutencoes_realizadas`
+--
+ALTER TABLE `manutencoes_realizadas`
+  ADD PRIMARY KEY (`manutencao_id`,`fornecedor_id`),
+  ADD KEY `fornecedor_id` (`fornecedor_id`);
 
 --
 -- Indexes for table `multa`
@@ -528,158 +653,189 @@ ALTER TABLE `usuario_adicional`
 --
 ALTER TABLE `arrecadacoes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
 --
 -- AUTO_INCREMENT for table `competencia`
 --
 ALTER TABLE `competencia`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `condominio`
 --
 ALTER TABLE `condominio`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
+--
+-- AUTO_INCREMENT for table `conta`
+--
+ALTER TABLE `conta`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `endereco`
 --
 ALTER TABLE `endereco`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
+--
+-- AUTO_INCREMENT for table `fornecedor`
+--
+ALTER TABLE `fornecedor`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `grupo_conta`
+--
+ALTER TABLE `grupo_conta`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `inadinplencia`
 --
 ALTER TABLE `inadinplencia`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
 --
 -- AUTO_INCREMENT for table `instrucao_acordo`
 --
 ALTER TABLE `instrucao_acordo`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `instrucao_boleto`
 --
 ALTER TABLE `instrucao_boleto`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `juro`
 --
 ALTER TABLE `juro`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
+--
+-- AUTO_INCREMENT for table `manutencao`
+--
+ALTER TABLE `manutencao`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `multa`
 --
 ALTER TABLE `multa`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
 --
 -- AUTO_INCREMENT for table `pagador_boleros`
 --
 ALTER TABLE `pagador_boleros`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- AUTO_INCREMENT for table `proprietario`
 --
 ALTER TABLE `proprietario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `unidade`
 --
 ALTER TABLE `unidade`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `usuario_adicional`
 --
 ALTER TABLE `usuario_adicional`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `arrecadacoes`
+-- Limitadores para a tabela `arrecadacoes`
 --
 ALTER TABLE `arrecadacoes`
   ADD CONSTRAINT `arrecadacoes_ibfk_1` FOREIGN KEY (`competencia_id`) REFERENCES `competencia` (`id`),
   ADD CONSTRAINT `arrecadacoes_ibfk_2` FOREIGN KEY (`condominio_id`) REFERENCES `condominio` (`id`);
 
 --
--- Constraints for table `condominio`
+-- Limitadores para a tabela `condominio`
 --
 ALTER TABLE `condominio`
   ADD CONSTRAINT `condominio_ibfk_1` FOREIGN KEY (`usr_id`) REFERENCES `usuario` (`id`);
 
 --
--- Constraints for table `endereco`
+-- Limitadores para a tabela `conta`
+--
+ALTER TABLE `conta`
+  ADD CONSTRAINT `conta_ibfk_1` FOREIGN KEY (`grupo_conta_id`) REFERENCES `grupo_conta` (`id`);
+
+--
+-- Limitadores para a tabela `endereco`
 --
 ALTER TABLE `endereco`
   ADD CONSTRAINT `endereco_ibfk_1` FOREIGN KEY (`uf`) REFERENCES `uf` (`id`);
 
 --
--- Constraints for table `inadinplencia`
+-- Limitadores para a tabela `grupo_conta`
+--
+ALTER TABLE `grupo_conta`
+  ADD CONSTRAINT `grupo_conta_ibfk_1` FOREIGN KEY (`condominio_id`) REFERENCES `condominio` (`id`);
+
+--
+-- Limitadores para a tabela `inadinplencia`
 --
 ALTER TABLE `inadinplencia`
   ADD CONSTRAINT `inadinplencia_ibfk_1` FOREIGN KEY (`condominio_id`) REFERENCES `condominio` (`id`);
 
 --
--- Constraints for table `instrucao_acordo`
+-- Limitadores para a tabela `instrucao_acordo`
 --
 ALTER TABLE `instrucao_acordo`
   ADD CONSTRAINT `instrucao_acordo_ibfk_1` FOREIGN KEY (`condominio_id`) REFERENCES `condominio` (`id`);
 
 --
--- Constraints for table `instrucao_boleto`
+-- Limitadores para a tabela `instrucao_boleto`
 --
 ALTER TABLE `instrucao_boleto`
   ADD CONSTRAINT `instrucao_boleto_ibfk_1` FOREIGN KEY (`condominio_id`) REFERENCES `condominio` (`id`);
 
 --
--- Constraints for table `juro`
+-- Limitadores para a tabela `juro`
 --
 ALTER TABLE `juro`
   ADD CONSTRAINT `juro_ibfk_1` FOREIGN KEY (`condominio_id`) REFERENCES `condominio` (`id`);
 
 --
--- Constraints for table `multa`
+-- Limitadores para a tabela `manutencao`
+--
+ALTER TABLE `manutencao`
+  ADD CONSTRAINT `manutencao_ibfk_1` FOREIGN KEY (`condominio_id`) REFERENCES `condominio` (`id`);
+
+--
+-- Limitadores para a tabela `manutencoes_realizadas`
+--
+ALTER TABLE `manutencoes_realizadas`
+  ADD CONSTRAINT `manutencoes_realizadas_ibfk_1` FOREIGN KEY (`manutencao_id`) REFERENCES `manutencao` (`id`),
+  ADD CONSTRAINT `manutencoes_realizadas_ibfk_2` FOREIGN KEY (`fornecedor_id`) REFERENCES `fornecedor` (`id`);
+
+--
+-- Limitadores para a tabela `multa`
 --
 ALTER TABLE `multa`
   ADD CONSTRAINT `multa_ibfk_1` FOREIGN KEY (`condominio_id`) REFERENCES `condominio` (`id`);
 
 --
--- Constraints for table `pagador_boleros`
+-- Limitadores para a tabela `pagador_boleros`
 --
 ALTER TABLE `pagador_boleros`
   ADD CONSTRAINT `pagador_boleros_ibfk_1` FOREIGN KEY (`condominio_id`) REFERENCES `condominio` (`id`);
 
 --
--- Constraints for table `proprietario`
+-- Limitadores para a tabela `proprietario`
 --
 ALTER TABLE `proprietario`
   ADD CONSTRAINT `proprietario_ibfk_1` FOREIGN KEY (`unidade_id`) REFERENCES `unidade` (`id`);
 
 --
--- Constraints for table `unidade`
+-- Limitadores para a tabela `unidade`
 --
 ALTER TABLE `unidade`
   ADD CONSTRAINT `unidade_ibfk_1` FOREIGN KEY (`condominio_id`) REFERENCES `condominio` (`id`);
 
 --
--- Constraints for table `usuario_adicional`
+-- Limitadores para a tabela `usuario_adicional`
 --
 ALTER TABLE `usuario_adicional`
   ADD CONSTRAINT `usuario_adicional_ibfk_1` FOREIGN KEY (`condominio_id`) REFERENCES `condominio` (`id`);
