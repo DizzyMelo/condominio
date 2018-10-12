@@ -357,7 +357,7 @@ $m = new Manutencao();
                       }
                         ?>
                         <p class="m-t">
-                            <input type='checkbox' id='drop-remove' class="i-checks" /> <label for='drop-remove'>Remover depois de arrastar</label>
+                            <div class="i-checks"><label> <input type="checkbox" name="drop-remove" id="drop-remove" value="" > <i></i> Remover item depois de agendar</label></div>
                         </p>
                     </div>
                 </div>
@@ -412,7 +412,7 @@ $m = new Manutencao();
 
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                            <i class="fa fa-user-plus modal-icon"></i>
+                            <i class="fa fa-wrench modal-icon"></i>
                             <h4 class="modal-title">Adicionar Manutenção</h4>
                             <small class="font-bold">Gerencie as manutenções programadas.</small>
                         </div>
@@ -424,6 +424,40 @@ $m = new Manutencao();
                             <div class="col-lg-4">
                               <div class="form-group"><label>Periodicidade</label> <input type="text" name="periodicidade" id="periodicidade" class="form-control" required></div>
                             </div>
+                          </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                            <button type="button" class="btn btn-white" data-dismiss="modal">Fechar</button>
+                        </div>
+                    </div>
+                  </form>
+                </div>
+
+            </div>
+
+            <!--Adicionar Unidade-->
+            <div class="modal inmodal" id="modal_manutencao_realizada" tabindex="-1" role="dialog" aria-hidden="true">
+
+                <div class="modal-dialog">
+                  <form class="" action="" method="post" onsubmit="return adicionarManutencao(this)">
+
+
+                <div class="modal-content animated bounceInRight" id="pwd-container1">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <i class="fa fa-wrench modal-icon"></i>
+                            <h4 class="modal-title">Manutenção</h4>
+                            <small class="font-bold">Gerencie as manutenções programadas.</small>
+                        </div>
+                        <div class="modal-body">
+                          <div class="row">
+                            <div class="col-lg-6">
+                            <div class="i-checks"><label> <input type="checkbox" name="manutencao_realizada" id="manutencao_realizada" value=""> <i></i> Manutenção realizada</label></div>
+                            </div>
+
                           </div>
                         </div>
 
@@ -476,6 +510,11 @@ $m = new Manutencao();
 <script src="js/plugins/fullcalendar/fullcalendar.min.js"></script>
 <script src='js/plugins/fullcalendar/lang/pt.js'></script>
 
+<script type="text/javascript">
+  function manutencaoRealizada() {
+    $("#modal_manutencao_realizada").modal();
+  }
+</script>
 <script>
 
     $(document).ready(function() {
@@ -517,14 +556,15 @@ $m = new Manutencao();
         $('#calendar').fullCalendar({
           eventClick: function(calEvent, jsEvent, view) {
 
-  alert('Manutenção do ' + calEvent.title + ' concluida');
-  //alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-  //alert('View: ' + view.name);
+            manutencaoRealizada();
+            //alert('Manutenção do ' + calEvent.title + ' concluida');
+            //alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+            //alert('View: ' + view.name);
 
-  // change the border color just for fun
-  $(this).css('border-color', 'red');
+            // change the border color just for fun
+            $(this).css('border-color', 'red');
 
-},
+          },
             header: {
                 left: 'prev,next today',
                 center: 'title',

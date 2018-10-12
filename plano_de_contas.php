@@ -1,3 +1,10 @@
+<?php
+require_once 'models/conta.php';
+require_once 'models/grupo_conta.php';
+
+$conta = new Conta();
+$grupo = new GrupoConta();
+ ?>
 <!DOCTYPE html>
 <html>
 
@@ -22,6 +29,28 @@
     <link href="css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
 
     <script type="text/javascript">
+      function adicionarConta(form){
+        //alert("oi");
+
+        var id = form.id_grupo.value;
+        var codigo = form.codigo.value;
+        var descricao = form.descricao_p.value;
+        var condominio = 4;
+
+        //alert(id);
+        $.post("actions/action_plano_de_contas.php",
+        {
+          op:1,
+          id:id,
+          codigo:codigo,
+          descricao:descricao,
+          condominio:condominio
+        },function(data){
+          alert(data);
+        });
+
+        return false;
+      }
       function adicionarUnidade(form){
         var unidade = form.unidade.value;
         var bloco = form.bloco.value;
@@ -378,50 +407,53 @@
                           <div class="dd" id="nestable">
                                 <ol class="dd-list">
 
-                                    <li class="dd-item dd-collapsed" data-id="2">
-                                        <div class="dd-handle">01 - Despesas</div>
+
+                                  <?php
+                                    foreach ($grupo->listar(4) as $key => $value) {
+                                   ?>
+                                    <!--Inicio da lista-->
+                                    <li class="dd-item dd-collapsed" data-id="10">
+                                        <div class="dd-handle"> <?php echo $value->descricao ?> </div>
                                         <ol class="dd-list">
-                                            <li class="dd-item" data-id="3">
-                                                <div class="dd-handle">01.01 - Aluguel</div>
+                                          <?php
+                                            foreach ($conta->listar($value->id) as $key => $value1) {
+                                           ?>
+                                            <li class="dd-item" data-id="<?php echo $value1->id ?>">
+                                                <div class="dd-handle"><?php echo $value1->conta." - ".$value1->descricao; ?></div>
                                             </li>
-                                            <li class="dd-item" data-id="4">
-                                                <div class="dd-handle">01.02 - Água</div>
-                                            </li>
-                                            <li class="dd-item" data-id="4">
-                                                <div class="dd-handle">01.03 - Energia</div>
-                                            </li>
-                                            <li class="dd-item" data-id="4">
-                                                <div class="dd-handle">01.04 - Telefonia e Internet</div>
-                                            </li>
+                                            <?php
+                                          }
+                                             ?>
 
                                         </ol>
                                     </li>
-                                    <li class="dd-item dd-collapsed" data-id="5">
-                                        <div class="dd-handle">02 - Gastos com pessoal</div>
-                                        <ol class="dd-list">
-                                            <li class="dd-item" data-id="6">
-                                                <div class="dd-handle">02.01 - Benefícios</div>
-                                            </li>
-                                            <li class="dd-item" data-id="7">
-                                                <div class="dd-handle">02.02 - Encargos</div>
-                                            </li><li class="dd-item" data-id="7">
-                                                <div class="dd-handle">02.03 - Salários</div>
-                                            </li>
-                                        </ol>
-                                    </li>
-<!--7005330720-->
-                                    <li class="dd-item dd-collapsed" data-id="5">
-                                        <div class="dd-handle">03 - Manutenção e Limpeza</div>
-                                        <ol class="dd-list">
-                                            <li class="dd-item" data-id="6">
-                                                <div class="dd-handle">03.01 - Serviços de Limpeza</div>
-                                            </li>
-                                            <li class="dd-item" data-id="7">
-                                                <div class="dd-handle">03.01 - Serviços de Manutenção</div>
-                                            </li>
-                                        </ol>
-                                    </li>
 
+                                    <div class="">
+                                        <form class="" action="" method="post" onsubmit="return adicionarConta(this)">
+                                          <input type="hidden" name="id_grupo" id="id_grupo" value="<?php echo $value->id ?>">
+                                          <div class="row">
+                                            <div class="col-lg-4">
+                                              <div class="form-group"><label>Código</label> <input type="text" name="codigo" id="descricao" class="form-control example1"></div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                              <div class="form-group"><label>Descrição</label> <input type="text" name="descricao_p" id="descricao_p" class="form-control example1"></div>
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-lg-6">
+
+                                            </div>
+                                            <div class="col-lg-1">
+                                              <button type="submit" class="btn btn-primary" name="button">Salvar</button>
+                                            </div>
+                                        </form>
+                                      </div>
+                                    </div>
+
+                                    <!--Fim da lista-->
+                                    <?php
+                                  }
+                                     ?>
                                 </ol>
                             </div>
                         </div>
@@ -661,7 +693,7 @@
              var list = e.length ? e : $(e.target),
                      output = list.data('output');
              if (window.JSON) {
-                 output.val(window.JSON.stringify(list.nestable('serialize')));//, null, 2));
+                 //output.val(window.JSON.stringify(list.nestable('serialize')));//, null, 2));
              } else {
                  output.val('JSON browser support required for this demo.');
              }
